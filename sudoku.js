@@ -17,18 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         optionsDiv.appendChild(button);
 
-        loadSudoku('easy')
+        
     });
-
+    loadSudoku('easy')
     const resetButton = document.createElement('button');
-    resetButton.textContent('Reset')
+    resetButton.textContent= 'Reset'
     resetButton.addEventListener('click', resetBoard)
     optionsDiv.appendChild(resetButton)
 })
 
 function clearSudokuBoard(){
     const displayDiv = document.getElementById('display');
-    displayDiv.innetHTML = ''
+    displayDiv.innerHTML = ''
 }
 
 function loadSudoku(difficulty){
