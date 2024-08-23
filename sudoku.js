@@ -1,4 +1,78 @@
-import puzzles from "./puzzles";
+var puzzles = {
+    easy: {
+        initial: [
+            [5, 3, 0, 0, 7, 0, 0, 0, 0],
+            [6, 0, 0, 1, 9, 5, 0, 0, 0],
+            [0, 9, 8, 0, 0, 0, 0, 6, 0],
+            [8, 0, 0, 0, 6, 0, 0, 0, 3],
+            [4, 0, 0, 8, 0, 3, 0, 0, 1],
+            [7, 0, 0, 0, 2, 0, 0, 0, 6],
+            [0, 6, 0, 0, 0, 0, 2, 8, 0],
+            [0, 0, 0, 4, 1, 9, 0, 0, 5],
+            [0, 0, 0, 0, 8, 0, 0, 7, 9]
+        ],
+        solution: [
+            [5, 3, 4, 6, 7, 8, 9, 1, 2],
+            [6, 7, 2, 1, 9, 5, 3, 4, 8],
+            [1, 9, 8, 3, 4, 2, 5, 6, 7],
+            [8, 5, 9, 7, 6, 1, 4, 2, 3],
+            [4, 2, 6, 8, 5, 3, 7, 9, 1],
+            [7, 1, 3, 9, 2, 4, 8, 5, 6],
+            [9, 6, 1, 2, 3, 7, 5, 8, 4],
+            [2, 8, 7, 4, 1, 9, 6, 3, 5],
+            [3, 4, 5, 6, 8, 2, 1, 7, 9]
+        ]
+    },
+    medium: {
+        initial: [
+            [0, 0, 0, 0, 2, 0, 0, 0, 0],
+            [0, 0, 8, 0, 0, 0, 0, 0, 0],
+            [0, 4, 0, 0, 0, 8, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 9, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 4, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ],
+        solution: [
+            [1, 9, 7, 5, 2, 6, 3, 8, 4],
+            [2, 6, 8, 7, 4, 3, 9, 1, 5],
+            [3, 4, 5, 9, 1, 8, 7, 2, 6],
+            [5, 2, 3, 1, 6, 7, 8, 9, 4],
+            [4, 1, 9, 3, 7, 2, 6, 5, 8],
+            [7, 8, 6, 4, 5, 9, 2, 3, 1],
+            [9, 5, 2, 8, 3, 1, 4, 6, 7],
+            [6, 3, 1, 2, 9, 4, 5, 7, 8],
+            [8, 7, 4, 6, 8, 5, 1, 2, 9]
+        ]
+    },
+    hard: {
+        initial: [
+            [0, 0, 0, 0, 0, 0, 0, 0, 4],
+            [0, 0, 3, 0, 0, 0, 0, 2, 0],
+            [0, 0, 0, 2, 0, 0, 0, 0, 0],
+            [0, 5, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 5, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 3, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ],
+        solution: [
+            [6, 2, 9, 7, 3, 8, 1, 6, 4],
+            [4, 7, 3, 6, 1, 5, 8, 2, 9],
+            [1, 8, 5, 2, 6, 4, 7, 3, 5],
+            [7, 5, 2, 4, 8, 6, 3, 1, 9],
+            [8, 6, 1, 9, 2, 3, 5, 4, 7],
+            [9, 4, 7, 1, 5, 2, 6, 8, 3],
+            [2, 1, 8, 3, 4, 9, 7, 5, 6],
+            [5, 3, 4, 8, 9, 7, 2, 6, 1],
+            [3, 9, 6, 5, 7, 1, 4, 2, 8]
+        ]
+    }
+};
+
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('app-name').innerText = 'Sudoku'
@@ -43,9 +117,12 @@ function loadSudoku(difficulty){
 }
 
 
-function createSudokuBoard(difficulty){
+function createSudokuBoard(difficulty='easy'){
+
+    // if(difficulty == undefined)
 
     const puzzle = puzzles[difficulty];
+
 
     let gridSize, subGridSize;
     if (difficulty === 'easy') {
@@ -73,7 +150,12 @@ function createSudokuBoard(difficulty){
             cell.className=`sudoku-cell ${difficulty}`;
             cell.min='1';
             cell.max=`${gridSize}`;
-            cell.value=''
+            cell.value = '';
+            if (puzzle.initial && puzzle.initial[i] && puzzle.initial[i][j] !== 0) {
+                cell.value=puzzle.initial[i][j]
+                cell.readOnly = true;
+                cell.classList.add('readonly');  // Optionally style read-only cells differently
+            }
             row.appendChild(cell)
         }
         board.appendChild(row)
