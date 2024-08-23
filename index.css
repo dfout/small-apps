@@ -2,12 +2,14 @@
     display: grid;
     gap: 5px;
     margin: auto;
+    /* border: 1px solid black; */
   }
   
   .sudoku-cell.easy {
     width: 30px;
     height: 30px;
     font-size: 1.2rem;
+    /* border: 1px solid black; */
   }
   
   .sudoku-cell.medium {
@@ -32,3 +34,12 @@
     cursor: pointer;
   }
   
+
+  .sub-grid-border {
+    border: 2px solid black; /* Adjust thickness if needed */
+    box-sizing: border-box;
+}
+
+/* .sudoku-row{
+    border: 1px solid black;
+} */
