@@ -1,3 +1,5 @@
+import puzzles from "./puzzles";
+
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('app-name').innerText = 'Sudoku'
 
@@ -42,6 +44,8 @@ function loadSudoku(difficulty){
 
 
 function createSudokuBoard(difficulty){
+
+    const puzzle = puzzles[difficulty];
 
     let gridSize, subGridSize;
     if (difficulty === 'easy') {
