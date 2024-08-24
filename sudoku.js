@@ -75,29 +75,29 @@ function showSolution(difficulty) {
         gridSize = 9;
         subGridSize = 3;
     }
-    // let solutions = []
-    // cells.forEach((cell, index) => {
-    //     const row = Math.floor(index / gridSize);
-    //     // console.log("ROW", row)
-    //     const col = index % gridSize;
-    //     // console.log('col', col)
-    //     // console.log(difficulty)
-    //     const value = puzzles[difficulty].solution[row][col];
-    //     console.log(value)
+    let solutions = []
+    cells.forEach((cell, index) => {
+        const row = Math.floor(index / gridSize);
+        // console.log("ROW", row)
+        const col = index % gridSize;
+        // console.log('col', col)
+        // console.log(difficulty)
+        const value = puzzles[difficulty].solution[row][col];
+        console.log(cell.value)
 
-    //     if (!cell.readOnly) {
-    //         const solutionCell = document.createElement('input');
-    //         solutionCell.type = 'number';
-    //         solutionCell.id = 'solution';
-    //         solutionCell.className=`sudoku-cell ${difficulty}`;
-    //         solutionCell.value = value;
-    //         solutionCell.readOnly = true;
-    //         // solutionCell.style.position = 'absolute';
-    //         solutionCell.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
-    //         // cell.parentNode.appendChild(solutionCell);
-    //     }
+        if (!cell.readOnly) {
+            const solutionCell = document.createElement('input');
+            solutionCell.type = 'number';
+            solutionCell.id = 'solution';
+            solutionCell.className=`sudoku-cell ${difficulty}`;
+            solutionCell.value = value;
+            solutionCell.readOnly = true;
+            // solutionCell.style.position = 'absolute';
+            solutionCell.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+            // cell.parentNode.appendChild(solutionCell);
+        }
 
-    // });
+    });
 
     // board.appendChild()
 
@@ -109,33 +109,33 @@ function showSolution(difficulty) {
     // board.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`
     // board.style.maxWidth = `${gridSize * 40}px`;
 
-    const grid = document.createElement('div')
-    grid.id = 'grid'
+    // const grid = document.createElement('div')
+    // grid.id = 'grid'
 
-    for(let i = 0; i < gridSize; i++){
-        const row = document.createElement('div');
-        row.className = 'sudoku-row'
-        for (let j = 0; j < gridSize; j++){
-            const cell = document.createElement('input')
-            cell.type = 'number';
-            cell.className=`sudoku-cell ${difficulty}`;
-            cell.min='1';
-            cell.max=`${gridSize}`;
-            cell.value = solutionTable[i][j]
-            // if (puzzle.initial && puzzle.initial[i] && puzzle.initial[i][j] !== 0) {
-            //     cell.value=puzzle.initial[i][j]
-            //     cell.readOnly = true;
-            //     cell.classList.add('readonly');  // Optionally style read-only cells differently
-            // }
-            row.appendChild(cell)
+    // for(let i = 0; i < gridSize; i++){
+    //     const row = document.createElement('div');
+    //     row.className = 'sudoku-row'
+    //     for (let j = 0; j < gridSize; j++){
+    //         const cell = document.createElement('input')
+    //         cell.type = 'number';
+    //         cell.className=`sudoku-cell ${difficulty}`;
+    //         cell.min='1';
+    //         cell.max=`${gridSize}`;
+    //         cell.value = solutionTable[i][j]
+    //         // if (puzzle.initial && puzzle.initial[i] && puzzle.initial[i][j] !== 0) {
+    //         //     cell.value=puzzle.initial[i][j]
+    //         //     cell.readOnly = true;
+    //         //     cell.classList.add('readonly');  // Optionally style read-only cells differently
+    //         // }
+    //         row.appendChild(cell)
   
-        }
-        board.appendChild(row)
-    }
+    //     }
+    //     board.appendChild(row)
+    // }
     
     solutionVisible = true;
     document.getElementById('solution-toggle').textContent = 'Hide Solution';
-    return board
+    // return board
 }
 
 function hideSolution() {
@@ -208,37 +208,48 @@ function loadSudoku(difficulty){
 
 function createSudokuBoard(difficulty='easy'){
 
-    // if(difficulty == undefined)
-
     const puzzle = puzzles[difficulty];
 
 
-    let gridSize, subGridSize;
+    let gridSize;
     if (difficulty === 'easy') {
         gridSize = 4;
-        subGridSize = 2;
+       
     } else if (difficulty === 'medium') {
         gridSize = 6;
-        subGridSize = 2;
+       
     } else {
         gridSize = 9;
-        subGridSize = 3;
     }
-
-    // if the subGrid = 2, then
 
     const board = document.createElement('div')
     board.className='sudoku-board';
     board.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`
     board.style.maxWidth = `${gridSize * 40}px`;
 
-    const grid = document.createElement('div')
-    grid.id = 'grid'
+    // const grid = document.createElement('div')
+    // grid.id = 'grid'
 
-    for(let i = 0; i < gridSize; i++){
+    // Loop over the array
+
+    // grab out the grids. 
+    // 00 01 02 03
+    // 10 11 12 13
+    // 20 21 22 23
+    // 30 31 32 33
+
+    // while (i < puzzle.)
+    // let gridCount = 0;
+    // while (gridCount >= gridSize){}
+    
+    // // 1: []
+    
+    
+
+    for(let i = 0; i < puzzle.initial.length; i++){
         const row = document.createElement('div');
         row.className = 'sudoku-row'
-        for (let j = 0; j < gridSize; j++){
+        for (let j = 0; j < puzzle.initial[i].length; j++){
             const cell = document.createElement('input')
             cell.type = 'number';
             cell.className=`sudoku-cell ${difficulty}`;
