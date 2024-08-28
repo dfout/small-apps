@@ -6,9 +6,9 @@ let apps = {
         title: 'Sudoku',
     },    
     maps: {
-        name: 'Finder',
+        name: 'Tacos Finder',
         // color: '#E91E63',
         icon: './images/map.png',
-        title: 'Finder',
+        title: 'Tacos Finder',
     },
 }

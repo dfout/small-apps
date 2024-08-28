@@ -21,7 +21,7 @@ const render = (app) => {
         case('Sudoku'):
             generateSudoku()
             break;
-        case('Finder'):
+        case('Tacos Finder'):
             // createKey()
             // createMap()
             initMap()

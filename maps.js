@@ -123,29 +123,35 @@ async function initMap() {
   searchInput.type = 'text';
   searchInput.placeholder = 'Enter city name';
 
-  const typeSelect = document.createElement('select')
-  let options = ['restaurants','malls','parks', 'National Parks', 'Museums', 'Aquariums']
+//   const typeSelect = document.createElement('select')
+//   let options = ['restaurants','malls','parks', 'National Parks', 'Museums', 'Aquariums', 'tacos']
 
-  typeSelect.placeholder = 'type'
-  for (let option of options ){
-    const op = document.createElement('option')
-    op.value=`${option}`
-    op.innerText =`${option}`
-    typeSelect.appendChild(op)
-  }
-  typeSelect.id='select'
-
+//   typeSelect.placeholder = 'type'
+//   for (let option of options ){
+//     const op = document.createElement('option')
+//     op.value=`${option}`
+//     op.innerText =`${option}`
+//     typeSelect.appendChild(op)
+//   }
+//   typeSelect.id='select'
+  
 
   const searchButton = document.createElement('button');
   searchButton.textContent = 'Search';
+  searchButton.type = 'submit'
 
   // Add search bar elements to options div
   const optionsDiv = document.getElementById('options');
   optionsDiv.appendChild(searchInput);
   optionsDiv.appendChild(searchButton);
-  optionsDiv.appendChild(typeSelect)
-  findPlaces()
-
+//   optionsDiv.appendChild(typeSelect)
+//   let selectedType;
+  
+//   typeSelect.addEventListener('change', (event) => {
+//     selectedType = event.target.value;
+//     // Store the selected type in a variable or object for later use
+//     console.log(`Selected type: ${selectedType}`);
+//   });
   
   //* For City
   // Handle search button click
@@ -153,13 +159,15 @@ async function initMap() {
     const cityName = searchInput.value.trim();
     if (!cityName) return; // Handle empty search
 
-    const placeService = new PlacesService(map);
-    const request = {
-      query: cityName,
-    };
+    // const placeService = new PlacesService(map);
+    // const request = {
+    //   query: cityName,
+    // };
+    
 
     try {
-      const response = await placeService.textSearch(request);
+        const response = findPlaces(cityName)
+    //   const response = await placeService.textSearch(request);
       console.log(response)
       const place = response.results[0]; // Get first result
       if (!place) {
@@ -183,7 +191,10 @@ async function initMap() {
     } catch (error) {
       console.error('Error searching for city:', error);
     }
+    
   });
+  
+
 }
 
 function removeMap() {
@@ -195,11 +206,11 @@ function removeMap() {
 
 
 
-async function findPlaces() {
+async function findPlaces(cityName) {
     const { Place } = await google.maps.importLibrary("places");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const request = {
-      textQuery: "Tacos in Mountain View",
+      textQuery: `Tacos in ${cityName}`,
       fields: ["displayName", "location", "businessStatus"],
       includedType: "restaurant",
       locationBias: { lat: 37.4161493, lng: -122.0812166 },
