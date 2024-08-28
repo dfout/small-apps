@@ -175,6 +175,15 @@ const generateSudoku = ()=> {
     mapDiv.innerHTML=""
     mapDiv.id = 'none'
 
+    let placesCont;
+
+    if(document.getElementById('places-cont')){
+        placesCont = document.getElementById('places-cont')
+        placesCont.innerHTML=""
+
+    }
+
+
     const optionsDiv = document.getElementById('options')
     const difficulties = ['Easy', 'Medium', 'Hard'];
     difficulties.forEach(difficulty => {

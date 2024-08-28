@@ -118,6 +118,15 @@ async function initMap() {
   });
   map.setMapId("finder")
 
+//   function removeMarkers() {
+//     if (map.getMarkers()) {
+//       // Clear existing markers from the map
+//       for (const marker of map.getMarkers()) {
+//         marker.setMap(null);
+//       }
+//     }
+//   }
+
   // Create search bar elements
   const searchInput = document.createElement('input');
   searchInput.type = 'text';
@@ -228,6 +237,9 @@ async function findPlaces(cityName, Lat, Lng) {
     const { Place } = await google.maps.importLibrary("places");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
     const { LatLngBounds } = await google.maps.importLibrary("core");
+
+    // removeMarkers()
+    
     map.setCenter({ lat: 37.7749, lng: -122.4194 });
     const request = {
       textQuery: `Tacos in ${cityName}`,
@@ -244,7 +256,17 @@ async function findPlaces(cityName, Lat, Lng) {
     //@ts-ignore
     const { places } = await Place.searchByText(request);
     const contDiv = document.getElementById('container')
-    const placesCont = document.createElement('ul')
+
+    let placesCont;
+
+    if(document.getElementById('places-cont')){
+        placesCont = document.getElementById('places-cont')
+        placesCont.innerHTML=""
+
+    }else{
+        placesCont = document.createElement('ul')
+        placesCont.id='places-cont'
+    }
 
     if (places.length) {
       
