@@ -124,8 +124,17 @@ async function initMap() {
   searchInput.placeholder = 'Enter city name';
 
   const typeSelect = document.createElement('select')
-  typeSelect.options = ['restaurants','malls','parks']
+  let options = ['restaurants','malls','parks', 'National Parks', 'Museums', 'Aquariums']
+
+  typeSelect.placeholder = 'type'
+  for (let option of options ){
+    const op = document.createElement('option')
+    op.value=`${option}`
+    op.innerText =`${option}`
+    typeSelect.appendChild(op)
+  }
   typeSelect.id='select'
+
 
   const searchButton = document.createElement('button');
   searchButton.textContent = 'Search';
