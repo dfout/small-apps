@@ -15,7 +15,7 @@ const reset = () => {
 };
 
 const render = (app) => {
-
+   
     reset();
     switch(app) {
         case('Sudoku'):
@@ -25,6 +25,9 @@ const render = (app) => {
             // createKey()
             // createMap()
             initMap()
+            break;
+        case('Screenshot Place'):
+            generateForm()
             break;
         default:
             break;

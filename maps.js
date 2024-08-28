@@ -139,6 +139,7 @@ async function initMap() {
   const searchButton = document.createElement('button');
   searchButton.textContent = 'Search';
   searchButton.type = 'submit'
+  
 
   // Add search bar elements to options div
   const optionsDiv = document.getElementById('options');
