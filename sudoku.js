@@ -73,6 +73,7 @@ let puzzles1 = {
 let solutionVisible = false;
 
 function showSolution(difficulty) {
+    alert('Under Construction, thank you for your patience.')
     const board = document.querySelector('.sudoku-board');
     const cells = board.querySelectorAll('input');
 
