@@ -109,7 +109,7 @@ async function initMap() {
 
   // Request needed libraries.
   const { Map } = await google.maps.importLibrary("maps");
-  const { PlacesService } = await google.maps.importLibrary("places");
+//   const { PlacesService } = await google.maps.importLibrary("places");
 
 //   Create the map
   map = new Map(document.getElementById("map"), {
@@ -166,8 +166,25 @@ async function initMap() {
     
 
     try {
-        const response = findPlaces(cityName)
-    //   const response = await placeService.textSearch(request);
+       
+
+       var address = cityName;
+
+       var geocoder = new google.maps.Geocoder();
+       geocoder.geocode({
+         'address': address
+       }, function(results, status) {
+         if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results)
+           var Lat = results[0].geometry.location.lat();
+           var Lng = results[0].geometry.location.lng();
+           findPlaces(cityName, Lat, Lng)
+         }
+        })
+
+
+        
+      const response = await placeService.textSearch(request);
       console.log(response)
       const place = response.results[0]; // Get first result
       if (!place) {
@@ -206,14 +223,17 @@ function removeMap() {
 
 
 
-async function findPlaces(cityName) {
+async function findPlaces(cityName, Lat, Lng) {
+    console.log(Lat, Lng)
     const { Place } = await google.maps.importLibrary("places");
     const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    const { LatLngBounds } = await google.maps.importLibrary("core");
+    map.setCenter({ lat: 37.7749, lng: -122.4194 });
     const request = {
       textQuery: `Tacos in ${cityName}`,
-      fields: ["displayName", "location", "businessStatus"],
+      fields: ["displayName", "location", "businessStatus",],
       includedType: "restaurant",
-      locationBias: { lat: 37.4161493, lng: -122.0812166 },
+      locationBias: { lat: Lat, lng: Lng },
       isOpenNow: true,
       language: "en-US",
       maxResultCount: 8,
@@ -223,24 +243,26 @@ async function findPlaces(cityName) {
     };
     //@ts-ignore
     const { places } = await Place.searchByText(request);
-  
+    const contDiv = document.getElementById('container')
+    const placesCont = document.createElement('ul')
+
     if (places.length) {
-      console.log(places);
+      
   
-      const { LatLngBounds } = await google.maps.importLibrary("core");
+      
       const bounds = new LatLngBounds();
   
       // Loop through and get all the results.
       places.forEach((place) => {
-        const markerView = new AdvancedMarkerElement({
-          map,
-          position: place.location,
-          title: place.displayName,
-        });
-  
+        
+        getPlaceDetails(Place,place,placesCont)
         bounds.extend(place.location);
-        console.log(place);
-      });
+
+        
+
+        
+        });
+        contDiv.appendChild(placesCont)
       map.fitBounds(bounds);
     } else {
       console.log("No results");
@@ -248,3 +270,32 @@ async function findPlaces(cityName) {
   }
   
   
+
+
+async function getPlaceDetails(Place,place,placesCont) {
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+    // Use place ID to create a new Place instance.
+    const placeInstance = new Place({
+      id: place.id,
+      requestedLanguage: "en", // optional
+    });
+  
+    // Call fetchFields, passing the desired data fields.
+    await placeInstance.fetchFields({
+      fields: ["displayName", "formattedAddress", "location"],
+    });
+    // Log the result
+    console.log(placeInstance.displayName);
+    console.log(placeInstance.formattedAddress);
+  
+    // Add an Advanced Marker
+    const marker = new AdvancedMarkerElement({
+      map,
+      position: placeInstance.location,
+      title: placeInstance.displayName,
+    });
+    
+    let listItem = document.createElement('li')
+    listItem.innerText=`${placeInstance.displayName}, ${placeInstance.formattedAddress}`
+    placesCont.appendChild(listItem)
+  }
