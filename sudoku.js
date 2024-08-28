@@ -1,4 +1,4 @@
-const puzzles = {
+let puzzles1 = {
     easy: {
         initial: [
             [1, 0, 0, 0],
@@ -11,6 +11,12 @@ const puzzles = {
             [2, 4, 3, 1],
             [4, 2, 1, 3],
             [3, 1, 2, 4]
+        ],
+        grids:[
+            [1,3,2,4],
+            [4,2,3,1],
+            [4,2,3,1],
+            [1,3,2,4]
         ]
     },
     medium: {
@@ -88,8 +94,8 @@ function showSolution(difficulty) {
         const col = index % gridSize;
         // console.log('col', col)
         // console.log(difficulty)
-        const value = puzzles[difficulty].solution[row][col];
-        console.log(cell.value)
+        const value = puzzles1[difficulty].solution[row][col];
+        
 
         if (!cell.readOnly) {
             const solutionCell = document.createElement('input');
@@ -107,7 +113,7 @@ function showSolution(difficulty) {
 
     // board.appendChild()
 
-   let solutionTable = puzzles[difficulty].solution
+   let solutionTable = puzzles1[difficulty].solution
    console.log(solutionTable)
 
 //    const board = document.createElement('div')
@@ -155,13 +161,19 @@ function hideSolution() {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
+// document.addEventListener('DOMContentLoaded', () => {
+const generateSudoku = ()=> {
+
     document.getElementById('app-name').innerText = 'Sudoku'
 
     const board = createSudokuBoard();
 
     const displayDiv = document.getElementById('display');
     displayDiv.appendChild(board)
+
+    const mapDiv = document.getElementById('map');
+    mapDiv.innerHTML=""
+    mapDiv.id = 'none'
 
     const optionsDiv = document.getElementById('options')
     const difficulties = ['Easy', 'Medium', 'Hard'];
@@ -194,7 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     optionsDiv.appendChild(solutionToggleButton);
-})
+}
+// })
 
 function clearSudokuBoard(){
     const displayDiv = document.getElementById('display');
@@ -214,21 +227,27 @@ function loadSudoku(difficulty){
 
 function createSudokuBoard(difficulty='easy'){
 
-    const puzzle = puzzles[difficulty];
+    clearSudokuBoard()
+
+    
+
+    const puzzle = puzzles1[difficulty];
+    const initial = puzzle.initial
 
 
-    let gridSize;
+    let gridSize, subGridSize
     if (difficulty === 'easy') {
         gridSize = 4;
        
-    }  else {
+    } else {
         gridSize = 9;
+        subGridSize = 3;
     }
 
     const board = document.createElement('div')
     board.className='sudoku-board';
-    board.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`
-    board.style.maxWidth = `${gridSize * 40}px`;
+    board.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`
+    board.style.maxWidth = `${gridSize * 60}px`;
 
     // const grid = document.createElement('div')
     // grid.id = 'grid'
@@ -244,15 +263,33 @@ function createSudokuBoard(difficulty='easy'){
     // while (i < puzzle.)
     // let gridCount = 0;
     // while (gridCount >= gridSize){}
-    
-    // // 1: []
+    let grids = [];
+
+    if (gridSize == 9){
+        const grid3 = document.createElement('div')
+        grid3.id = "grid3"
+        i = 0;
+        let grid = [];
+        while (i < subGridSize){
+            let j = 0;
+            while (j < subGridSize){
+                grid.push(initial[i][j])
+                j++
+            }
+            i++
+            grids.push(grid)
+        }
+
+        console.log(grids)
+        
+    }
     
     
 
-    for(let i = 0; i < puzzle.initial.length; i++){
+    for(let i = 0; i < gridSize; i++){
         const row = document.createElement('div');
         row.className = 'sudoku-row'
-        for (let j = 0; j < puzzle.initial[i].length; j++){
+        for (let j = 0; j < gridSize; j++){
             const cell = document.createElement('input')
             cell.type = 'number';
             cell.className=`sudoku-cell ${difficulty}`;
